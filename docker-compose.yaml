@@ -1,0 +1,43 @@
+version: '3'
+  db-survay:
+    container_name: db-survay
+    image: mysql:8.0.28
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DB_NAME
+    volumes:
+      - ./var/lib/mysql:/var/lib/mysql
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      default:
+        ipv4_address: 192.168.2.2
+    security_opt:
+      - seccomp:unconfined
+
+  survey-service:
+    container_name: survey-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: survey-service:latest
+    ports:
+      - 8080:80
+    networks:
+      default:
+        ipv4_address: 192.168.2.3
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: nw-survey-service
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.2.0/24
+          gateway: 192.168.2.1
+    enable_ipv6: false

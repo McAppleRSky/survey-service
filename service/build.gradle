@@ -1,8 +1,8 @@
 
 plugins {
     id 'java'
-     id 'org.springframework.boot' version '2.6.3'
-     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 //    id "jacoco"
 }
 
@@ -47,25 +47,24 @@ dependencies {
     testImplementation  'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly     'org.junit.jupiter:junit-jupiter-engine'
 //    testImplementation "org.mockito:mockito-core"
-    // testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        // exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    // }
+     testImplementation('org.springframework.boot:spring-boot-starter-test') {
+         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+     }
     compileOnly         'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.apache.commons:commons-lang3'
 //    implementation "org.apache.logging.log4j:log4j-core:$log4j_version"
 //    implementation "org.apache.logging.log4j:log4j-api:$log4j_version"
-    // implementation 'javax.persistence:javax.persistence-api'
+     implementation 'javax.persistence:javax.persistence-api'
      implementation 'javax.validation:validation-api'
-//    implementation 'javax.xml.bind:jaxb-api'
-    // implementation 'org.hibernate:hibernate-core'
-    // implementation 'com.h2database:h2'
-    // implementation 'org.flywaydb:flyway-core'
+    implementation 'javax.xml.bind:jaxb-api'
+     implementation 'org.hibernate:hibernate-core'
+     implementation 'com.h2database:h2'
+//    implementation 'mysql:mysql-connector-java'
+     implementation 'org.flywaydb:flyway-core'
      implementation 'org.springframework.boot:spring-boot-starter-web'
      implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    // implementation 'org.springframework.boot:spring-boot-starter-security'
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    // implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+     implementation 'org.springframework.boot:spring-boot-starter-security'
     // implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
