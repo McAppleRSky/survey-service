@@ -11,7 +11,7 @@ public enum Role //implements GrantedAuthority
 
     ADMIN("admin"),
 //    USER("user"),
-//    GUEST("guest")
+//    GUEST("guest"),
     ;
 
     private final String authority;

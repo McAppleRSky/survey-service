@@ -26,6 +26,12 @@ iptables -L --line-numbers -v
 iptables -D DOCKER-ISOLATION-STAGE-2 2
 iptables -D DOCKER-ISOLATION-STAGE-1 2
 
+Структура БД:
+1. person -> role
+2. survey _ 
+            \_ -> question -> answer
+   qtype  _/              \
+                            -> qvariant
 Документация по API:
 мапинг приложения осуществляется на: /api/0.0.1/surveys, а также /api/0.0.1/login
 

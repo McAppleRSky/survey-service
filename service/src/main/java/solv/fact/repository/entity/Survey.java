@@ -8,13 +8,12 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.Collection;
 
-@Entity
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Survey {
 
     @Id
@@ -22,21 +21,26 @@ public class Survey {
     @Column(name = "survey_id")
     private Integer id;
 
-    @Size(min = 5)
-    @Column(name = "title_survey", length=1024)
+    @Size(min = 5, max=1024)
+    @Column(name = "title_survey", unique=true, nullable = false, length=1024)
     String title;
 
-    @Column(name = "start_survey")
+    @Column(name = "start_survey", nullable = false)
     private Timestamp start;
 
-    @Column(name = "finish_survey")
+    @Column(name = "finish_survey", nullable = false)
     private Timestamp finish;
 
-    @Size(min = 5)
+    @Size(min = 5, max=4096)
     @Column(name = "description_survey", length=4096)
     String description;
 
-//    @OneToMany(mappedBy="survey", fetch= FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
-//    private Set<Question> question;
+    @OneToMany(
+//            mappedBy="survey",
+            cascade=CascadeType.ALL
+//            ,orphanRemoval=true
+//            ,fetch= FetchType.EAGER
+    )
+    private Collection<Question> questions;
 
 }

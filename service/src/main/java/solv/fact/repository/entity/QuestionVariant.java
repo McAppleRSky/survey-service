@@ -11,24 +11,22 @@ import javax.validation.constraints.Size;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Answer {
+@Entity(name="qvariant")
+public class QuestionVariant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "answer_id")
+    @Column(name = "qvariant_id")
     private Integer id;
 
     @Size(min = 3, max=16)
-    @Column(name = "name_answer", nullable = false, length=16)
+    @Column(name = "name_qvariant", nullable = false, length=16)
     private String name;
 
-    @Size(min = 3, max=1024)
-    @Column(name = "text_answer", nullable = false, length=1025)
-    private String text;
-
     @ManyToOne//(fetch = FetchType.EAGER//, targetEntity=QuestionType.class)
-    @JoinColumn(name = "question_id", nullable = false)
+//    @OneToMany(mappedBy = "Answer")
+    @JoinColumn(name = "answer_id", nullable = false)
     private Question question;
+
 
 }
