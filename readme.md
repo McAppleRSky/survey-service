@@ -10,6 +10,8 @@ under develop !
   boot.security.role=
   spring.flyway.placeholders.person.login=
   spring.flyway.placeholders.person.password=
+  jwt.secret.access=
+  jwt.secret.refresh=
 
 docker daemon start:
 sudo /etc/init.d/docker start
@@ -28,7 +30,7 @@ iptables -D DOCKER-ISOLATION-STAGE-1 2
 
 Структура БД:
 1. person -> role
-2. survey _ 
+2. survey _
             \_ -> question -> answer
    qtype  _/              \
                             -> qvariant
@@ -39,6 +41,7 @@ iptables -D DOCKER-ISOLATION-STAGE-1 2
 
 Логин - POST /api/0.0.1/login
 
+
 Создание сущности "Опроса" - POST /api/0.0.1/surveys
   поля сущености - в теле запроса
   возврат созданной сущности - /api/0.0.1/surveys/{id}
@@ -47,6 +50,7 @@ iptables -D DOCKER-ISOLATION-STAGE-1 2
   поля сущености - в теле запроса
 
 Удаление Опроса - DELETE /api/0.0.1/surveys/{id}
+
 
 Создание сущности "Вопроса" - POST /api/0.0.1/surveys/{id}/question
   id - опрос, к которому относится создаваемый вопрос

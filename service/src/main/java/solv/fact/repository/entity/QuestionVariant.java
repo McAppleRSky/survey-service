@@ -20,13 +20,16 @@ public class QuestionVariant {
     private Integer id;
 
     @Size(min = 3, max=16)
-    @Column(name = "name_qvariant", nullable = false, length=16)
-    private String name;
+    @Column(name = "title_qvariant", nullable = false, length=16)
+    private String title;
+
+    @Size(min = 5, max=128)
+    @Column(name = "value_qvariant", nullable = false, length=16)
+    private String value;
 
     @ManyToOne//(fetch = FetchType.EAGER//, targetEntity=QuestionType.class)
 //    @OneToMany(mappedBy = "Answer")
     @JoinColumn(name = "answer_id", nullable = false)
     private Question question;
-
 
 }

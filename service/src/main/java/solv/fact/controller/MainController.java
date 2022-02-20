@@ -23,7 +23,6 @@ import solv.fact.service.survey.model.SurveysFullResponse;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +38,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Void> surveyCreate(@Valid @RequestBody SurveyRequest requested) {
-        final int id = surveyService.create(requested);
+        final int id = surveyService.createSurvey(requested);
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/api/0.0.1/surveys/{id}")
@@ -51,7 +50,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Survey> surveyUpdate(@PathVariable Integer id, @Valid @RequestBody SurveyRequestPull requested) {
-        SurveyResponse updated = surveyService.update(id, requested);
+        SurveyResponse updated = surveyService.updateSurvey(id, requested);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-store, no-cache, must-revalidate");
         headers.add("Pragma", "no-cache");
@@ -63,7 +62,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     @DeleteMapping("/{id}")
     @Override
     public void surveyDelete(Integer id) {
-        surveyService.delete(id);
+        surveyService.deleteSurvey(id);
     }
 
     @PostMapping(value = "/{id}/question", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,7 +70,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     public ResponseEntity<Void> questionCreate(@PathVariable Integer surveyId, @Valid @RequestBody QuestionRequest requested) {
         Map<String, Object> params = new HashMap<>();
         params.put("survey_id", surveyId);
-        final int questionId = questionService.create(surveyId, requested);
+        final int questionId = questionService.createQuestion(surveyId, requested);
         params.put("question_id", questionId);
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -87,7 +86,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
             @PathVariable Integer surveyId,
             @PathVariable Integer questionId,
             @Valid @RequestBody QuestionRequest requested ) {
-        QuestionResponse updated = questionService.update(surveyId, questionId, requested);
+        QuestionResponse updated = questionService.updateQuestion(surveyId, questionId, requested);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-store, no-cache, must-revalidate");
         headers.add("Pragma", "no-cache");
@@ -101,13 +100,13 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     public void questionDelete(
             @PathVariable Integer surveyId,
             @PathVariable Integer questionId ) {
-        questionService.delete(surveyId, questionId);
+        questionService.deleteQuestion(surveyId, questionId);
     }
 
     @GetMapping(MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public SurveysFullResponse surveys() {
-        return surveyService.findAllActive();
+        return surveyService.findAllActiveSurvey();
     }
 
     @PostMapping(value = "/{surveyId}/answer/{questionId}/user/{personId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -138,26 +137,35 @@ public class MainController implements SurveyServletable, QuestionServletable, P
 }
 
 interface SurveyServletable {
-    ResponseEntity surveyCreate(SurveyRequest requested);
-    ResponseEntity surveyUpdate(Integer id, SurveyRequestPull requested);
-    void surveyDelete(Integer id);
+    ResponseEntity
+        surveyCreate(SurveyRequest requested);
+    ResponseEntity
+        surveyUpdate(Integer id, SurveyRequestPull requested);
+    void
+        surveyDelete(Integer id);
 }
 
 interface QuestionServletable {
-    ResponseEntity questionCreate(Integer id, QuestionRequest requested);
-    ResponseEntity questionUpdate(
+    ResponseEntity
+        questionCreate(Integer id, QuestionRequest requested);
+    ResponseEntity
+        questionUpdate(
             Integer surveyId,
             Integer questionId,
             QuestionRequest requested );
-    void questionDelete(Integer surveyId, Integer questionId);
+    void
+        questionDelete(Integer surveyId, Integer questionId);
 }
 
 interface PassingServletable {
-    Object surveys();
-    ResponseEntity answerCreate(
+    Object
+        surveys();
+    ResponseEntity
+        answerCreate(
             Integer surveyId,
             Integer questionId,
             Integer personId,
             AnswerRequest requested );
-    Object answer(Integer personId);
+    Object
+        answer(Integer personId);
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Collection;
+import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -22,23 +22,15 @@ public class Question {
 
     @Size(min = 5, max=1024)
     @Column(name = "name_question", length=1024)
-    String title;
+    private String title;
 
     @ManyToOne//(fetch = FetchType.EAGER//, targetEntity=Survey.class)
-    @JoinColumn(name="qvariant_id", nullable=false)
+    @JoinColumn(name="survey_id", nullable=false)
     private Survey survey;
 
-    //    @Enumerated(EnumType.ORDINAL)
-//    @Enumerated(EnumType.STRING)
-    @ManyToOne//(fetch = FetchType.EAGER//, targetEntity=QuestionType.class)
-    @JoinColumn(name="qtype_id", nullable = false)
-    private QuestionType questionType;
-
-    /*@ElementCollection(targetClass = QuestionType.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "qtype", joinColumns = @JoinColumn(name = "question_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name="question_type", length=5)
-    private Set<QuestionType> questionType;*/
+    @Size(min = 4, max=5)
+    @Column(name = "type_question", length=5)
+    private String questionType;
 
     @OneToMany(
 //            mappedBy = "question",
@@ -46,9 +38,9 @@ public class Question {
 //            ,orphanRemoval = true
 //            ,fetch = FetchType.EAGER
     )
-    private Collection<QuestionVariant> questionVariants;
+    private List<QuestionVariant> questionVariants;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<Answer> answers;
+    private List<Answer> answers;
 
 }

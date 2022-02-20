@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -44,6 +45,18 @@ public class PersonRepositoryImpl implements PersonRepository{
     @Override
     public Person save(@Nonnull Person entity) {
         throw new NotImplementedException("save not impl");
+    }
+
+    @Nullable
+    @Override
+    public Person findByLogin(@Nonnull String login) {
+        String qlString = "SELECT o \n"
+                        + "  FROM Person o \n"
+                        + " WHERE o.login=:login ";
+        TypedQuery<Person> query = entityManager
+                .createQuery(qlString, Person.class);
+        return query.setParameter("login", login)
+                .getSingleResult();
     }
 
 }

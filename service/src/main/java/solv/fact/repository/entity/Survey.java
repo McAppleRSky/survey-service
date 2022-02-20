@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -23,7 +23,7 @@ public class Survey {
 
     @Size(min = 5, max=1024)
     @Column(name = "title_survey", unique=true, nullable = false, length=1024)
-    String title;
+    private String title;
 
     @Column(name = "start_survey", nullable = false)
     private Timestamp start;
@@ -33,14 +33,14 @@ public class Survey {
 
     @Size(min = 5, max=4096)
     @Column(name = "description_survey", length=4096)
-    String description;
+    private String description;
 
     @OneToMany(
 //            mappedBy="survey",
-            cascade=CascadeType.ALL
-//            ,orphanRemoval=true
+//            cascade=CascadeType.ALL,
+            orphanRemoval=true
 //            ,fetch= FetchType.EAGER
     )
-    private Collection<Question> questions;
+    private List<Question> questions;
 
 }

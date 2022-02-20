@@ -1,8 +1,16 @@
 package solv.fact.service.auth;
 
-import solv.fact.service.auth.model.AuthRequest;
-import solv.fact.service.auth.model.TokenResponse;
+import solv.fact.service.auth.model.JwtRequest;
+import solv.fact.service.auth.model.JwtResponse;
 
 public interface AuthService {
-    TokenResponse login(AuthRequest authRequest);
+
+    JwtResponse login(JwtRequest authRequest) ;
+
+    JwtResponse getAccessToken(String refreshToken) ;
+
+    JwtResponse refresh(String refreshToken) ;
+
+    JwtAuthentication getAuthInfo();
+
 }

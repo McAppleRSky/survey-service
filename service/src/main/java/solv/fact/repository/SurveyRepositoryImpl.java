@@ -3,6 +3,7 @@ package solv.fact.repository;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
 import solv.fact.repository.entity.Person;
+import solv.fact.repository.entity.Survey;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,32 +19,35 @@ public class SurveyRepositoryImpl implements SurveyRepository{
 
     @Nullable
     @Override
-    public Person findById(@Nonnull Integer integer) {
-        throw new NotImplementedException("findById not impl");
+    public Survey findById(@Nonnull Integer id) {
+        return entityManager.find(Survey.class, id);
     }
 
     @Nonnull
     @Override
-    public List<Person> findAll() {
+    public List<Survey> findAll() {
         throw new NotImplementedException("findAll not impl");
     }
 
     @Nonnull
     @Override
-    public Person update(@Nonnull Person entity) {
-        throw new NotImplementedException("update not impl");
+    public Survey update(@Nonnull Survey entity) {
+        return entityManager.merge(entity);
     }
 
     @Nullable
     @Override
-    public Person delete(@Nonnull Integer integer) {
-        throw new NotImplementedException("delete not impl");
+    public Survey delete(@Nonnull Integer id) {
+        Survey deleted = entityManager.find(Survey.class, id);
+        entityManager.remove(deleted);
+        return deleted;
     }
 
     @Nonnull
     @Override
-    public Person save(@Nonnull Person entity) {
-        throw new NotImplementedException("save not impl");
+    public Survey save(@Nonnull Survey created) {
+        entityManager.persist(created);
+        return created;
     }
 
 }

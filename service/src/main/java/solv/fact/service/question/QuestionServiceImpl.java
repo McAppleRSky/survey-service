@@ -14,17 +14,17 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
 
     @Override
-    public int create(Integer surveyId, QuestionRequest requested) {
+    public int createQuestion(Integer surveyId, QuestionRequest requested) {
         throw new NotImplementedException("Question service method not implemented");
     }
 
     @Override
-    public QuestionResponse update(Integer surveyId, Integer questionId, QuestionRequest requested) {
+    public QuestionResponse updateQuestion(Integer surveyId, Integer questionId, QuestionRequest requested) {
         throw new NotImplementedException("Question service method not implemented");
     }
 
     @Override
-    public void delete(Integer surveyId, Integer questionId) {
+    public void deleteQuestion(Integer surveyId, Integer questionId) {
         throw new NotImplementedException("Question service method not implemented");
     }
 
