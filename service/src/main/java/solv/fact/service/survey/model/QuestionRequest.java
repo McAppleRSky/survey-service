@@ -1,4 +1,4 @@
-package solv.fact.service.question.model;
+package solv.fact.service.survey.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public class QuestionRequest {
-    String title;
-    QuestionTypeModel type;
-    List<String[]> questionVariants;
+    private final String title;
+    private final QuestionTypeModel type;
+    private final List<String[]> questionVariants;
 }

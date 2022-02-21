@@ -13,8 +13,8 @@ import solv.fact.service.answer.AnswerService;
 import solv.fact.service.answer.model.AnswerFullResponse;
 import solv.fact.service.answer.model.AnswerRequest;
 import solv.fact.service.question.QuestionService;
-import solv.fact.service.question.model.QuestionRequest;
-import solv.fact.service.question.model.QuestionResponse;
+import solv.fact.service.survey.model.QuestionRequest;
+import solv.fact.service.survey.model.QuestionResponse;
 import solv.fact.service.survey.SurveyService;
 import solv.fact.service.survey.model.SurveyRequestPull;
 import solv.fact.service.survey.model.SurveyRequest;
@@ -24,6 +24,7 @@ import solv.fact.service.survey.model.SurveysFullResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -70,7 +71,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     public ResponseEntity<Void> questionCreate(@PathVariable Integer surveyId, @Valid @RequestBody QuestionRequest requested) {
         Map<String, Object> params = new HashMap<>();
         params.put("survey_id", surveyId);
-        final int questionId = questionService.createQuestion(surveyId, requested);
+        final int questionId = surveyService.createQuestionAtSurvey(surveyId, requested);
         params.put("question_id", questionId);
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -105,7 +106,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
 
     @GetMapping(MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public SurveysFullResponse surveys() {
+    public List<SurveyResponse> surveys() {
         return surveyService.findAllActiveSurvey();
     }
 
@@ -158,7 +159,7 @@ interface QuestionServletable {
 }
 
 interface PassingServletable {
-    Object
+    List
         surveys();
     ResponseEntity
         answerCreate(

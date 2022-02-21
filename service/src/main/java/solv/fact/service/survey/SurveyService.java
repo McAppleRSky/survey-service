@@ -4,16 +4,18 @@ import solv.fact.service.survey.model.SurveyRequest;
 import solv.fact.service.survey.model.SurveyRequestPull;
 import solv.fact.service.survey.model.SurveyResponse;
 import solv.fact.service.survey.model.SurveysFullResponse;
-import solv.fact.service.question.model.QuestionRequest;
-import solv.fact.service.question.model.QuestionResponse;
+import solv.fact.service.survey.model.QuestionRequest;
+import solv.fact.service.survey.model.QuestionResponse;
+
+import java.util.List;
 
 public interface SurveyService {
     SurveyResponse updateSurvey(int id, SurveyRequestPull requested);
     int createSurvey(SurveyRequest requested);
     void deleteSurvey(int id);
-    SurveysFullResponse findAllActiveSurvey();
+    List findAllActiveSurvey();
 
     int createQuestionAtSurvey(int surveyId, QuestionRequest requested);
-    QuestionResponse updateQuestion(int surveyId, int questionId, QuestionRequest requested);
-    void deleteQuestion(int surveyId, int questionId);
+    QuestionResponse updateQuestionAtSurvey(int surveyId, int questionId, QuestionRequest requested);
+    void deleteQuestionAtSurvey(int surveyId, int questionId);
 }

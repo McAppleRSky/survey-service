@@ -1,21 +1,27 @@
 package solv.fact.service.survey;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solv.fact.repository.SurveyRepository;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.Survey;
-import solv.fact.service.question.model.QuestionRequest;
-import solv.fact.service.question.model.QuestionResponse;
+import solv.fact.service.survey.model.QuestionRequest;
+import solv.fact.service.survey.model.QuestionResponse;
 import solv.fact.service.survey.model.*;
 
 import javax.annotation.Nonnull;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -46,8 +52,7 @@ public class SurveyServiceImpl implements SurveyService {
         return ModelHelper.createSurveyResponse(
                 surveyRepository.update(
                         ofNullable(surveyRepository.findById(id))
-                                .map(updating -> ModelHelper.updateSurveyPullEntity(
-                                        updating, requested))
+                                .map(updating -> ModelHelper.updateSurveyPullEntity(updating, requested))
                                 .orElseThrow(() -> new EntityNotFoundException("Survey '" + id + "' not found")) ) );
     }
 
@@ -64,9 +69,18 @@ public class SurveyServiceImpl implements SurveyService {
         surveyRepository.delete(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public SurveysFullResponse findAllActiveSurvey() {
-        throw new NotImplementedException("Survey service method not implemented");
+    public List<SurveyResponse> findAllActiveSurvey() {
+        LocalDateTime now = LocalDateTime.now();
+        Comparator<LocalDateTime> nowBetween = (o1, o2) -> o1.isAfter(now) ? -1 : o2.isBefore(now) ? 1 : 0;
+
+        return surveyRepository.findAll().stream()
+                .filter(s -> 0 == nowBetween.compare(s.getStart().toLocalDateTime(), s.getFinish().toLocalDateTime()))
+                .map(ModelHelper::createSurveyResponse)
+                .collect(toList())
+                ;
+//        return null;
     }
 
     @Transactional
@@ -75,20 +89,36 @@ public class SurveyServiceImpl implements SurveyService {
         Survey atSurvey = ofNullable(surveyRepository.findById(surveyId))
                 .orElseThrow(() -> new EntityNotFoundException("Survey '" + surveyId + "' not found"));
         List<Question> questions = atSurvey.getQuestions();
-        questions.add(ModelHelper.createQuestionEntity(requested));
-        Survey save = surveyRepository.save(atSurvey);
-
-        return atSurvey.;
+        Question questionEntity = ModelHelper.updateQuestionEntityOrCreateIfNull(null, requested);
+        questions.add(questionEntity);
+//        Survey save =
+                surveyRepository.save(atSurvey);
+        return questionEntity.getId();
     }
 
+    @Transactional
     @Override
-    public QuestionResponse updateQuestion(int surveyId, int questionId, QuestionRequest requested) {
-        return null;
+    public QuestionResponse updateQuestionAtSurvey(int surveyId, int questionId, QuestionRequest requestedModel) {
+        Survey atSurvey = ofNullable(surveyRepository.findById(surveyId))
+                .orElseThrow(() -> new EntityNotFoundException("Survey '" + surveyId + "' not found"));
+        Question questionEntity = atSurvey.getQuestions().stream()
+                .filter(q -> questionId == q.getId())
+                .findAny()
+                .orElseThrow(() -> new EntityNotFoundException("Question '" + questionId + "' not found"));
+        questionEntity = ModelHelper.updateQuestionEntityOrCreateIfNull(questionEntity, requestedModel);
+        surveyRepository.save(atSurvey);
+        return ModelHelper.questionResponse(questionEntity);
     }
 
+    @Transactional
     @Override
-    public void deleteQuestion(int surveyId, int questionId) {
-
+    public void deleteQuestionAtSurvey(int surveyId, int questionId) {
+        Survey atSurvey = ofNullable(surveyRepository.findById(surveyId))
+                .orElseThrow(() -> new EntityNotFoundException("Survey '" + surveyId + "' not found"));
+        if ( !atSurvey.getQuestions().removeIf(q -> questionId == q.getId()) ) {
+            throw new IllegalArgumentException("nothing delete from survey questions");
+        }
+        surveyRepository.save(atSurvey);
     }
 
 }

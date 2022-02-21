@@ -3,7 +3,6 @@ package solv.fact.service.survey.model;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.QuestionVariant;
 import solv.fact.repository.entity.Survey;
-import solv.fact.service.question.model.QuestionRequest;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -41,17 +40,20 @@ public class ModelHelper {
         return updating;
     }
 
-    public static Question createQuestionEntity(QuestionRequest requested) {
-        Question resultQuestion = new Question();
-        resultQuestion.setTitle(requested.getTitle());
-        QuestionTypeModel type = requested.getType();
-        resultQuestion.setQuestionType(type.getText());
+    public static Question updateQuestionEntityOrCreateIfNull(Question questionEntity, QuestionRequest requestedModel) {
+        List<QuestionVariant> questionEntityVariants;
+        if (questionEntity == null) {
+            questionEntity = new Question();
+        }
+        questionEntity.setTitle(requestedModel.getTitle());
+        QuestionTypeModel type = requestedModel.getType();
+        questionEntity.setQuestionType(type.getText());
         if (type != QuestionTypeModel.TEXT) {
-            List<String[]> requestQuestionVariants = requested.getQuestionVariants();
+            List<String[]> requestQuestionVariants = requestedModel.getQuestionVariants();
             if (requestQuestionVariants != null) {
                 if (!requestQuestionVariants.isEmpty()) {
                     List<QuestionVariant> entityQuestionVariants = new ArrayList<>();
-                    for (String[] requestQuestionVariant : requested.getQuestionVariants()) {
+                    for (String[] requestQuestionVariant : requestedModel.getQuestionVariants()) {
                         QuestionVariant entityQuestionVariant = new QuestionVariant();
                         entityQuestionVariant.setTitle(requestQuestionVariant[0]);
                         entityQuestionVariant.setValue(requestQuestionVariant[1]);
@@ -60,6 +62,24 @@ public class ModelHelper {
                 }
             }
         }
-        return resultQuestion;
+        return questionEntity;
     }
+
+    public static QuestionResponse questionResponse(Question questionEntity) {
+        List<String[]> questionVariantsForResponse = new ArrayList<>();
+        for (QuestionVariant questionVariantEntity : questionEntity.getQuestionVariants()) {
+            questionVariantsForResponse.add(new String[]{
+                    questionVariantEntity.getTitle(),
+                    questionVariantEntity.getValue()
+            });
+        }
+        QuestionResponse resultQuestionResponse = new QuestionResponse(
+                questionEntity.getTitle(),
+                QuestionTypeModel.valueOf(
+                        questionEntity.getQuestionType() ),
+                questionVariantsForResponse
+        );
+        return resultQuestionResponse;
+    }
+
 }

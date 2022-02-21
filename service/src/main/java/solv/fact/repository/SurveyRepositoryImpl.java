@@ -26,7 +26,7 @@ public class SurveyRepositoryImpl implements SurveyRepository{
     @Nonnull
     @Override
     public List<Survey> findAll() {
-        throw new NotImplementedException("findAll not impl");
+        return entityManager.createQuery("select s from Survey s", Survey.class).getResultList();
     }
 
     @Nonnull
