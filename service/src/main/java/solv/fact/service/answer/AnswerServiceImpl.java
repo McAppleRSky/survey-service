@@ -16,8 +16,14 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public void create(Integer surveyId, Integer questionId, Integer personId, Map<String, String>[] requested) {
+
+
         for (Map<String, String> mapStringString : requested) {
-            answerRepository.
+            for (Map.Entry<String, String> stringStringEntry : mapStringString.entrySet()) {
+                stringStringEntry.
+            }
+
+            answerRepository.createAnswer(surveyId, questionId, personId, requested);
         }
     }
 

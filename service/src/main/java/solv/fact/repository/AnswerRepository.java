@@ -5,4 +5,6 @@ import solv.fact.repository.entity.Answer;
 
 @NoRepositoryBean
 public interface AnswerRepository extends IDao<Answer, Integer> {
+
+
 }
