@@ -12,7 +12,6 @@ import solv.fact.repository.entity.Survey;
 import solv.fact.service.answer.AnswerService;
 import solv.fact.service.answer.model.AnswerFullResponse;
 import solv.fact.service.answer.model.AnswerRequest;
-import solv.fact.service.question.QuestionService;
 import solv.fact.service.survey.model.QuestionRequest;
 import solv.fact.service.survey.model.QuestionResponse;
 import solv.fact.service.survey.SurveyService;
@@ -33,7 +32,6 @@ import java.util.Map;
 public class MainController implements SurveyServletable, QuestionServletable, PassingServletable {
 
     private final SurveyService surveyService;
-    private final QuestionService questionService;
     private final AnswerService answerService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,7 +85,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
             @PathVariable Integer surveyId,
             @PathVariable Integer questionId,
             @Valid @RequestBody QuestionRequest requested ) {
-        QuestionResponse updated = questionService.updateQuestion(surveyId, questionId, requested);
+        QuestionResponse updated = surveyService.updateQuestionAtSurvey(surveyId, questionId, requested);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-store, no-cache, must-revalidate");
         headers.add("Pragma", "no-cache");
@@ -101,7 +99,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     public void questionDelete(
             @PathVariable Integer surveyId,
             @PathVariable Integer questionId ) {
-        questionService.deleteQuestion(surveyId, questionId);
+        surveyService.deleteQuestionAtSurvey(surveyId, questionId);
     }
 
     @GetMapping(MediaType.APPLICATION_JSON_VALUE)
