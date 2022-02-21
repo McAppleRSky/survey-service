@@ -1,8 +1,6 @@
 package solv.fact.repository;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
-import solv.fact.repository.entity.Person;
 import solv.fact.repository.entity.Survey;
 
 import javax.annotation.Nonnull;

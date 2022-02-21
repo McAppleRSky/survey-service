@@ -2,7 +2,6 @@ package solv.fact.service.survey.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import solv.fact.service.survey.model.QuestionTypeModel;
 
 import java.util.List;
 

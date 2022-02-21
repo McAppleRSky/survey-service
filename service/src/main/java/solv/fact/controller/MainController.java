@@ -11,14 +11,8 @@ import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.Survey;
 import solv.fact.service.answer.AnswerService;
 import solv.fact.service.answer.model.AnswerFullResponse;
-import solv.fact.service.answer.model.AnswerRequest;
-import solv.fact.service.survey.model.QuestionRequest;
-import solv.fact.service.survey.model.QuestionResponse;
 import solv.fact.service.survey.SurveyService;
-import solv.fact.service.survey.model.SurveyRequestPull;
-import solv.fact.service.survey.model.SurveyRequest;
-import solv.fact.service.survey.model.SurveyResponse;
-import solv.fact.service.survey.model.SurveysFullResponse;
+import solv.fact.service.survey.model.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -114,7 +108,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
                 @PathVariable Integer surveyId,
                 @PathVariable Integer questionId,
                 @PathVariable Integer personId,
-                @Valid @RequestBody AnswerRequest requested ) {
+                @Valid @RequestBody Map<String, String>[] requested ) {
         Map<String, Object> params = new HashMap<>();
         params.put("survey_id", surveyId);
         params.put("personId", personId);
@@ -164,7 +158,7 @@ interface PassingServletable {
             Integer surveyId,
             Integer questionId,
             Integer personId,
-            AnswerRequest requested );
+            Map<String, String>[] requested );
     Object
         answer(Integer personId);
 }

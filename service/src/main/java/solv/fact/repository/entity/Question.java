@@ -40,7 +40,6 @@ public class Question {
     )
     private List<QuestionVariant> questionVariants;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Answer> answers;
+//    @OneToMany(cascade = CascadeType.ALL) private List<Answer> answers;
 
 }

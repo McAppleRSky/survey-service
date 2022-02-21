@@ -1,26 +1,20 @@
 package solv.fact.service.survey;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solv.fact.repository.SurveyRepository;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.Survey;
-import solv.fact.service.survey.model.QuestionRequest;
-import solv.fact.service.survey.model.QuestionResponse;
 import solv.fact.service.survey.model.*;
 
 import javax.annotation.Nonnull;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 @Service

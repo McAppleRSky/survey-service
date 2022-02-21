@@ -20,15 +20,21 @@ public class Answer {
     private Integer id;
 
     @Size(min = 3, max=16)
-    @Column(name = "name_answer", nullable = false, length=16)
-    private String name;
+    @Column(name = "value_answer", nullable = false, length=16)
+    private String value;
 
     @Size(min = 3, max=1024)
     @Column(name = "text_answer", nullable = false, length=1025)
     private String text;
 
-    @ManyToOne//(fetch = FetchType.EAGER//, targetEntity=QuestionType.class)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @Column(name = "person_id", nullable = false)
+    private Integer personId;
+
+    @Column(name = "survey_id", nullable = false)
+    private Integer surveyId;
+
+    @Column(name = "question_id", nullable = false)
+    private Integer questionId;
+//    @ManyToOne @JoinColumn(name = "question_id", nullable = false) private Question question;
 
 }
