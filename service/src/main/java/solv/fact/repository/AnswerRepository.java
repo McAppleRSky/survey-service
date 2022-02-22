@@ -2,7 +2,7 @@ package solv.fact.repository;
 
 import org.springframework.data.repository.NoRepositoryBean;
 import solv.fact.repository.entity.Answer;
-import solv.fact.service.answer.model.AnswerValueTextEnum;
+import solv.fact.service.answer.model.AnswerValuesOrTextEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ public interface AnswerRepository extends IDao<Answer, Integer> {
             Integer surveyId,
             Integer questionId,
             Integer personId,
-            AnswerValueTextEnum category,
+            AnswerValuesOrTextEnum category,
             Map<String, String>[] requested );
 
 }

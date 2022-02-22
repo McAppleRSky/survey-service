@@ -3,7 +3,7 @@ package solv.fact.repository;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
 import solv.fact.repository.entity.Answer;
-import solv.fact.service.answer.model.AnswerValueTextEnum;
+import solv.fact.service.answer.model.AnswerValuesOrTextEnum;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -53,7 +53,7 @@ public class AnswerRepositoryImpl implements AnswerRepository{
             Integer surveyId,
             Integer questionId,
             Integer personId,
-            AnswerValueTextEnum category,
+            AnswerValuesOrTextEnum category,
             Map<String, String>[] requested ) {
         /*StringBuilder stringBuilder = new StringBuilder(
                 "INSERT INTO answer (value, text, person_id, survey_id, question_id) \n" +
@@ -61,7 +61,7 @@ public class AnswerRepositoryImpl implements AnswerRepository{
         );
 
         for (Map<String, String> mapStringString : requested) {
-            for (AnswerValueTextEnum value : AnswerValueTextEnum.values()) {
+            for (AnswerValuesOrTextEnum value : AnswerValuesOrTextEnum.values()) {
 
             }
 

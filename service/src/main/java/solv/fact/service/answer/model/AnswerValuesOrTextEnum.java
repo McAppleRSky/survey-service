@@ -5,13 +5,12 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AnswerValueTextEnum {
+public enum AnswerValuesOrTextEnum {
 
-    VALUE("value"),
     VALUES("values"),
-    TEXT("text"),
-    UNKNOWN("unknown");
+    TEXT("text")
+    ;
 
-    private final String category;
+    private final String value;
 
 }

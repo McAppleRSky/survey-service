@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 import solv.fact.repository.AnswerRepository;
 import solv.fact.service.answer.model.AnswerFullResponse;
 import solv.fact.service.answer.model.AnswerHelper;
-import solv.fact.service.answer.model.AnswerValueTextEnum;
+import solv.fact.service.answer.model.AnswerValuesOrTextEnum;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +23,8 @@ public class AnswerServiceImpl implements AnswerService {
             Integer surveyId,
             Integer questionId,
             Integer personId,
-            Map<String, String>[] requested ) {
-        AnswerValueTextEnum category = AnswerHelper.categoryOrOther(requested)
+            Map requested ) {
+        AnswerValuesOrTextEnum category = AnswerHelper.categoryOrOther(requested)
                 .orElseThrow(() -> new IllegalArgumentException("Empty request answer not created"));
         switch (category) {
             case UNKNOWN:
