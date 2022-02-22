@@ -46,9 +46,9 @@ public class ModelHelper {
             questionEntity = new Question();
         }
         questionEntity.setTitle(requestedModel.getTitle());
-        QuestionTypeModel type = requestedModel.getType();
+        QuestionTypeEnum type = requestedModel.getType();
         questionEntity.setQuestionType(type.getText());
-        if (type != QuestionTypeModel.TEXT) {
+        if (type != QuestionTypeEnum.TEXT) {
             List<String[]> requestQuestionVariants = requestedModel.getQuestionVariants();
             if (requestQuestionVariants != null) {
                 if (!requestQuestionVariants.isEmpty()) {
@@ -75,7 +75,7 @@ public class ModelHelper {
         }
         QuestionResponse resultQuestionResponse = new QuestionResponse(
                 questionEntity.getTitle(),
-                QuestionTypeModel.valueOf(
+                QuestionTypeEnum.valueOf(
                         questionEntity.getQuestionType() ),
                 questionVariantsForResponse
         );

@@ -9,6 +9,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionResponse {
         private final String title;
-        private final QuestionTypeModel type;
+        private final QuestionTypeEnum type;
         private final List<String[]> questionVariants;
 }

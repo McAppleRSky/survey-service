@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum QuestionTypeModel {
+public enum QuestionTypeEnum {
 
     TEXT("text"),
     CHECK("check"),
