@@ -1,11 +1,11 @@
 package solv.fact.service.answer.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Getter
-@RequiredArgsConstructor
+@Getter @Setter
+//@NoArgsConstructor
+@AllArgsConstructor
 public class AnswerRequest {
-    private final String text;
-    private final String[] values;
+    private String text;
+    private String[] values;
 }

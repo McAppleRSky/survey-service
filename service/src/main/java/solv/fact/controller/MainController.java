@@ -109,7 +109,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
                 @PathVariable Integer surveyId,
                 @PathVariable Integer questionId,
                 @PathVariable Integer personId,
-                @Valid @RequestBody Map requested ) {
+                @Valid @RequestBody AnswerRequest requested ) {
         Map<String, Object> params = new HashMap<>();
         params.put("survey_id", surveyId);
         params.put("personId", personId);
@@ -159,7 +159,7 @@ interface PassingServletable {
             Integer surveyId,
             Integer questionId,
             Integer personId,
-            Map requested );
+            AnswerRequest requested );
     Object
         answer(Integer personId);
 }

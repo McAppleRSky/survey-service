@@ -1,4 +1,4 @@
-package mrs.base;
+package solv.fact.bdd;
 
 import org.junit.jupiter.api.Test;
 

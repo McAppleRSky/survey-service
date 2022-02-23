@@ -27,13 +27,7 @@ public class Answer {
     @Column(name = "text_answer", nullable = false, length=1025)
     private String text;
 
-    @Column(name = "person_id", nullable = false)
-    private Integer personId;
-
-    @Column(name = "survey_id", nullable = false)
-    private Integer surveyId;
-
-    @Column(name = "question_id", nullable = false)
+    @Column(name = "participation_id", nullable = false)
     private Integer questionId;
 //    @ManyToOne @JoinColumn(name = "question_id", nullable = false) private Question question;
 
