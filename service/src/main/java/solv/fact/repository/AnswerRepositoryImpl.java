@@ -4,15 +4,14 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
 import solv.fact.repository.entity.Answer;
 import solv.fact.service.answer.model.AnswerRequest;
-import solv.fact.service.answer.model.AnswerValuesOrTextEnum;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class AnswerRepositoryImpl implements AnswerRepository {
@@ -51,29 +50,41 @@ public class AnswerRepositoryImpl implements AnswerRepository {
     }
 
     @Override
+    // https://reflectoring.io/spring-boot-data-jpa-test
+    // https://www.baeldung.com/spring-data-jpa-query
+    // http://www.h2database.com/h2.pdf
     public int createAnswerText(
             Integer surveyId,
             Integer questionId,
             Integer personId,
             AnswerRequest textRequest) {
-        String qlString =
+        String qlString = String.format(
                 "INSERT INTO participation (survey_id, question_id, person_id) \n" +
                 "     VALUES (:surveyId, :questionId, :personId); \n" +
-                "INSERT INTO answer (text, participation_id) \n" +
-                "     SELECT ':text', participation_id \n" +
+                "INSERT INTO answer (text_answer, participation_id) \n" +
+                "     SELECT '%s', participation_id \n" +
                 "       FROM participation \n" +
                 "   ORDER BY participation_id DESC \n" +
-                "      LIMIT 1; \n" +
+                "      LIMIT 1;  \n" +
                 "  SELECT participation_id \n" +
                 "    FROM participation \n" +
                 "ORDER BY participation_id DESC \n" +
-                "   LIMIT 1 ";
-        Query query = entityManager.createQuery(qlString);
+                "   LIMIT 1 ",
+                textRequest.getText());
+        Query query = entityManager.createNativeQuery(qlString);
         query.setParameter("surveyId", surveyId);
         query.setParameter("questionId", questionId);
         query.setParameter("personId", personId);
         query.setParameter("text", textRequest.getText());
-        return  (Integer)query.getSingleResult();
+//        query.e
+        BigInteger singleResult = (BigInteger) query.getSingleResult();
+        return  0//(Integer)query. .getSingleResult()
+        ;
+    }
+
+    @Override
+    public int createAnswerText1(Integer surveyId, Integer questionId, Integer personId, AnswerRequest textRequest) {
+        return 0;
     }
 
     @Override

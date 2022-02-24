@@ -20,11 +20,11 @@ public class Answer {
     private Integer id;
 
     @Size(min = 3, max=16)
-    @Column(name = "value_answer", nullable = false, length=16)
+    @Column(name = "value_answer", length=16)
     private String value;
 
     @Size(min = 3, max=1024)
-    @Column(name = "text_answer", nullable = false, length=1025)
+    @Column(name = "text_answer", length=1025)
     private String text;
 
     @Column(name = "participation_id", nullable = false)
