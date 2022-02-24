@@ -3,6 +3,7 @@ package solv.fact.repository;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
 import solv.fact.repository.entity.Answer;
+import solv.fact.repository.entity.Participation;
 import solv.fact.service.answer.model.AnswerRequest;
 
 import javax.annotation.Nonnull;
@@ -50,6 +51,12 @@ public class AnswerRepositoryImpl implements AnswerRepository {
     }
 
     @Override
+    public int createAnswerParticipation(Participation created) {
+        entityManager.persist(created);
+        return created.getId();
+    }
+
+    @Override
     // https://reflectoring.io/spring-boot-data-jpa-test
     // https://www.baeldung.com/spring-data-jpa-query
     // http://www.h2database.com/h2.pdf
@@ -75,16 +82,11 @@ public class AnswerRepositoryImpl implements AnswerRepository {
         query.setParameter("surveyId", surveyId);
         query.setParameter("questionId", questionId);
         query.setParameter("personId", personId);
-        query.setParameter("text", textRequest.getText());
+//        query.setParameter("text", textRequest.getText());
 //        query.e
-        BigInteger singleResult = (BigInteger) query.getSingleResult();
+        query.getResultList();
         return  0//(Integer)query. .getSingleResult()
         ;
-    }
-
-    @Override
-    public int createAnswerText1(Integer surveyId, Integer questionId, Integer personId, AnswerRequest textRequest) {
-        return 0;
     }
 
     @Override
