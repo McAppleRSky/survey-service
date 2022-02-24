@@ -31,7 +31,7 @@ iptables -D DOCKER-ISOLATION-STAGE-1 2
 Структура БД:
 1. person -> role
 2. survey _
-            \_ -> question -> answer
+            \_ -> question -- participation -> answer
    qtype  _/              \
                             -> qvariant
 Документация по API:
