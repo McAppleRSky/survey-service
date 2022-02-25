@@ -1,6 +1,7 @@
 package solv.fact.service.answer;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import solv.fact.repository.AnswerRepository;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AnswerServiceImpl implements AnswerService {
 
@@ -28,17 +29,19 @@ public class AnswerServiceImpl implements AnswerService {
             Integer questionId,
             Integer personId,
             AnswerRequest requested ) {
-        int participationId = answerRepository
-                .createAnswerParticipation(
-                        new Participation(null, surveyId, questionId, personId) );
         AnswerValuesOrTextEnum category = AnswerHelper.categoryOrOther(requested)
                 .orElseThrow(() -> new IllegalArgumentException("Not consistent request answer not created"));
+        int participationCreatedId = createAnswerParticipationReturnId(
+                surveyId,
+                questionId,
+                personId);
+
         switch (category) {
             case TEXT:
-                answerRepository.createAnswerText(participationId, requested);
+                answerRepository.createAnswerText(surveyId, questionId, personId, requested);
                 break;
             case VALUES:
-                answerRepository.createAnswerValues(participationId, requested);
+                answerRepository.createAnswerValues(surveyId, questionId, personId, requested);
                 break;
         }
     }

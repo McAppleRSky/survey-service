@@ -16,7 +16,7 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-
+//https://habr.com/ru/post/435114/
 @Service
 @RequiredArgsConstructor
 public class SurveyServiceImpl implements SurveyService {
