@@ -28,7 +28,7 @@ public class Answer {
     private String text;
 
     @Column(name = "participation_id", nullable = false)
-    private Integer questionId;
+    private Integer participationId;
 //    @ManyToOne @JoinColumn(name = "question_id", nullable = false) private Question question;
 
 }

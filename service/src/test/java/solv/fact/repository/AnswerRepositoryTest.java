@@ -4,11 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import solv.fact.service.answer.model.AnswerRequest;
+import solv.fact.repository.entity.Answer;
+import solv.fact.repository.entity.Participation;
+
+import java.util.List;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.RandomUtils.nextInt;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ComponentScan(basePackages = "solv.fact")
@@ -17,20 +20,39 @@ class AnswerRepositoryTest {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Autowired
+    private AnswerRepositoryQuery answerRepositoryQuery;
+
+    @Autowired
+    private ParticipationRepository participationRepository;
+
+    // https://habr.com/ru/post/435114/
     @Test
-    void createAnswerText() {
-        int surveyIdTest = nextInt(),
+    void createAnswerTextTest() {
+        int personIdTest = nextInt(),
             questionIdTest = nextInt(),
-            personIdTest = nextInt();
+            surveyIdTest = nextInt();
         String textTest = randomAlphabetic(3);
-        AnswerRequest textRequestTest = new AnswerRequest(
-                textTest, new String[]{} );
-        int actualResult = answerRepository.createAnswerText(surveyIdTest, questionIdTest, personIdTest, textRequestTest);
-        assertEquals(0, actualResult);
+        int participationCreatedId = answerRepository.createAnswerParticipationReturnId(
+                surveyIdTest,
+                questionIdTest,
+                personIdTest );
+        answerRepositoryQuery.createAnswerText(textTest, participationCreatedId);
+        List<Answer> actualAnswerList = answerRepositoryQuery.findAnswerById(participationCreatedId);
+        assertFalse(actualAnswerList.isEmpty());
+        assertEquals(1, actualAnswerList.size());
+        assertNull(actualAnswerList.get(0).getValue());
+        assertTrue(actualAnswerList.get(0).getId() >= 0);
+        assertEquals(textTest, actualAnswerList.get(0).getText());
+        assertEquals(participationCreatedId, actualAnswerList.get(0).getParticipationId());
+        Participation participation = participationRepository.findById(actualAnswerList.get(0).getParticipationId());
+        assertEquals(personIdTest, participation.getPersonId());
+        assertEquals(questionIdTest, participation.getQuestionId());
+        assertEquals(surveyIdTest, participation.getSurveyId());
         System.out.println();
     }
 
-    void createAnswerValues() {
+    void createAnswerValuesTest() {
     }
 
 }

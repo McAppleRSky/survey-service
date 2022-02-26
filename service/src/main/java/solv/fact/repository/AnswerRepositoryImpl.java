@@ -14,10 +14,35 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-public class AnswerRepositoryImpl implements AnswerRepository {
+public class AnswerRepositoryImpl implements AnswerRepository
+{
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Override
+    public int createAnswerParticipationReturnId(Integer surveyId, Integer questionId, Integer personId) {
+        Participation participation = new Participation(null, surveyId, questionId, personId);
+        entityManager.persist(participation);
+        return participation.getId();
+    }
+
+    @Override
+    public int createAnswerValues(String[] values, int participationCreatedId) {
+        StringBuilder qlBuilder = new StringBuilder(
+                "INSERT INTO answer (value, participation_id) \n" +
+                "     VALUES " );
+        for (int i = 0; i < values.length; i++) {
+            if (i != 0) {
+                qlBuilder.append(",");
+            }
+            qlBuilder.append("/n");
+            qlBuilder.append(
+                "            (" + values[i] + ", " + participationCreatedId + ")");
+        }
+        Query query = entityManager.createQuery(qlBuilder.toString());
+        return query.executeUpdate();
+    }
 
     @Nullable
     @Override
