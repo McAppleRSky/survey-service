@@ -11,6 +11,7 @@ import solv.fact.service.survey.model.QuestionTypeEnum;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -35,8 +36,10 @@ class PersonAnswerTest {
     private PersonRepository personRepository;
 
     @Autowired
-    private AnswerRepositoryQuery answerRepositoryQuery;
+    private AnswerRepositoryQuery answerRepository;
 
+    @Autowired
+    AnswerRepositoryQuery answerRepositoryQuery;
     @Test
     void findAllByPersonTest() {
         final String name = randomAlphabetic(3) + " "  + randomAlphabetic(3);
@@ -75,8 +78,6 @@ class PersonAnswerTest {
         Question questionSaved = questionRepository.save(question);
         surveySaved.getQuestions().add(questionSaved);
 
-
-
         Survey saved2 = surveyRepository.save(surveySaved);
 
         Integer surveyId = surveySaved.getId();
@@ -93,7 +94,11 @@ class PersonAnswerTest {
 
         final String value = randomAlphabetic(3);
         Answer answer = new Answer(null, value, null, participationSaved.getId());
-        answerRepository.save(answer)
+        answerRepository.save(answer);
+
+        List<Object[]> allByPersonId = null;
+        allByPersonId = answerRepositoryQuery.findAllByPersonId(1);
+
         LOGGER.info("assert end");
     }
 

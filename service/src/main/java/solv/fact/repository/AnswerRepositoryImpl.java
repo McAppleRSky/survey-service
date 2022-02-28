@@ -73,8 +73,9 @@ public class AnswerRepositoryImpl implements AnswerRepository
 
     @Nonnull
     @Override
-    public Answer save(@Nonnull Answer entity) {
-        throw new NotImplementedException("save not impl");
+    public Answer save(@Nonnull Answer created) {
+        entityManager.persist(created);
+        return created;
     }
 
 }

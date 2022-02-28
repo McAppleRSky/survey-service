@@ -11,6 +11,9 @@ import solv.fact.service.answer.model.AnswerRequest;
 import solv.fact.service.answer.model.AnswerValuesOrTextEnum;
 
 import javax.transaction.Transactional;
+import java.util.List;
+
+import static solv.fact.service.answer.model.AnswerHelper.createAnswerFullResponse;
 
 @RequiredArgsConstructor
 @Service
@@ -43,9 +46,10 @@ public class AnswerServiceImpl implements AnswerService {
         }
     }
 
+    @Transactional
     @Override
-    public AnswerFullResponse findAllByPersonId(Integer personId) {
-        throw new NotImplementedException("Answer service method not implemented");
+    public List<AnswerFullResponse> findAllByPersonId(Integer personId) {
+        return createAnswerFullResponse(answerRepositoryQuery.findAllByPersonId(personId));
     }
 
 }
