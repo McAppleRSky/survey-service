@@ -1,6 +1,8 @@
 package solv.fact.repository;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import solv.fact.repository.entity.Answer;
 import solv.fact.repository.entity.Participation;
@@ -20,6 +22,8 @@ public class AnswerRepositoryImpl implements AnswerRepository
     @PersistenceContext
     private EntityManager entityManager;
 
+//    private static Logger LOGGER = LoggerFactory.getLogger(AnswerRepositoryImpl.class);
+
     @Override
     public int createAnswerParticipationReturnId(Integer surveyId, Integer questionId, Integer personId) {
         Participation participation = new Participation(null, surveyId, questionId, personId);
@@ -30,17 +34,16 @@ public class AnswerRepositoryImpl implements AnswerRepository
     @Override
     public int createAnswerValues(String[] values, int participationCreatedId) {
         StringBuilder qlBuilder = new StringBuilder(
-                "INSERT INTO answer (value, participation_id) \n" +
+                "INSERT INTO answer (value_answer, participation_id) \n" +
                 "     VALUES " );
         for (int i = 0; i < values.length; i++) {
             if (i != 0) {
-                qlBuilder.append(",");
+                qlBuilder.append(", \n            ");
             }
-            qlBuilder.append("/n");
-            qlBuilder.append(
-                "            (" + values[i] + ", " + participationCreatedId + ")");
+            qlBuilder.append("('" + values[i] + "', " + participationCreatedId + ")");
         }
-        Query query = entityManager.createQuery(qlBuilder.toString());
+//        LOGGER.info("create query : \n" + qlBuilder);
+        Query query = entityManager.createNativeQuery(qlBuilder.toString());
         return query.executeUpdate();
     }
 

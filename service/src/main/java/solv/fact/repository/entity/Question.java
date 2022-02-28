@@ -21,7 +21,7 @@ public class Question {
     private Integer id;
 
     @Size(min = 5, max=1024)
-    @Column(name = "name_question", length=1024)
+    @Column(name = "title_question", length=1024)
     private String title;
 
     @ManyToOne//(fetch = FetchType.EAGER//, targetEntity=Survey.class)

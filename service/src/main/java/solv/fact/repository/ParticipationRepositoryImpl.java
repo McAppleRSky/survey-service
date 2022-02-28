@@ -46,8 +46,9 @@ public class ParticipationRepositoryImpl implements ParticipationRepository
 
     @Nonnull
     @Override
-    public Participation save(@Nonnull Participation entity) {
-        throw new NotImplementedException("save not impl");
+    public Participation save(@Nonnull Participation created) {
+        entityManager.persist(created);
+        return created;
     }
 
 }

@@ -42,8 +42,9 @@ public class QuestionRepositoryImpl implements QuestionRepository{
 
     @Nonnull
     @Override
-    public Question save(@Nonnull Question entity) {
-        throw new NotImplementedException("save not impl");
+    public Question save(@Nonnull Question created) {
+        entityManager.persist(created);
+        return created;
     }
 
 }

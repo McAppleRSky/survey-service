@@ -3,6 +3,7 @@ package solv.fact.repository;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
 import solv.fact.repository.entity.Person;
+import solv.fact.repository.entity.Survey;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,7 +27,9 @@ public class PersonRepositoryImpl implements PersonRepository{
     @Nonnull
     @Override
     public List<Person> findAll() {
-        throw new NotImplementedException("findAll not impl");
+        return entityManager
+                .createQuery("SELECT p FROM Person p", Person.class)
+                .getResultList();
     }
 
     @Nonnull
@@ -43,8 +46,9 @@ public class PersonRepositoryImpl implements PersonRepository{
 
     @Nonnull
     @Override
-    public Person save(@Nonnull Person entity) {
-        throw new NotImplementedException("save not impl");
+    public Person save(@Nonnull Person created) {
+        entityManager.persist(created);
+        return created;
     }
 
     @Nullable

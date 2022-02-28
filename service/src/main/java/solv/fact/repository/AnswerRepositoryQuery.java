@@ -27,12 +27,12 @@ public interface AnswerRepositoryQuery extends CrudRepository<Answer, Integer> {
             @Param("participationId") Integer participation_id );
 
     @Query(value =
-            "SELECT s.title_survey, q.title_question, v.ti" +
+            "SELECT s.title_survey, q.name_question, q.type_question, a.value_answer, a.text_answer \n" +
             "  FROM participation p JOIN survey s ON p.survey_id = s.survey_id \n" +
             "  JOIN question q ON p.question_id = q.question_id \n" +
-            "  JOIN answer a ON p.answer_id = a.answer_id \n" +
-            " WHERE person_id = :personId \n",
+            "  JOIN answer a ON p.participation_id = a.participation_id \n" +
+            " WHERE p.person_id = :personId ",
             nativeQuery = true)
-    Object findAllByPersonId(@Param("personId") Integer participationId);
+    Object findAllByPersonId(@Param("personId") Integer personId);
 
 }

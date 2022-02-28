@@ -1,6 +1,9 @@
 package solv.fact.repository;
 
 import org.junit.jupiter.api.Test;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ComponentScan(basePackages = "solv.fact")
-class AnswerRepositoryTest {
+class AnswerRepositoryTextTest {
+
+//    private static Logger LOGGER = LoggerFactory.getLogger(AnswerRepositoryTextTest.class);
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -39,6 +44,7 @@ class AnswerRepositoryTest {
                 personIdTest );
         answerRepositoryQuery.createAnswerText(textTest, participationCreatedId);
         List<Answer> actualAnswerList = answerRepositoryQuery.findAnswerById(participationCreatedId);
+//        LOGGER.info("assert begin");
         assertFalse(actualAnswerList.isEmpty());
         assertEquals(1, actualAnswerList.size());
         assertNull(actualAnswerList.get(0).getValue());
@@ -49,10 +55,7 @@ class AnswerRepositoryTest {
         assertEquals(personIdTest, participation.getPersonId());
         assertEquals(questionIdTest, participation.getQuestionId());
         assertEquals(surveyIdTest, participation.getSurveyId());
-        System.out.println();
-    }
-
-    void createAnswerValuesTest() {
+//        LOGGER.info("assert end");
     }
 
 }

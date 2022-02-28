@@ -68,7 +68,6 @@ public class SurveyServiceImpl implements SurveyService {
     public List<SurveyResponse> findAllActiveSurvey() {
         LocalDateTime now = LocalDateTime.now();
         Comparator<LocalDateTime> nowBetween = (o1, o2) -> o1.isAfter(now) ? -1 : o2.isBefore(now) ? 1 : 0;
-
         return surveyRepository.findAll().stream()
                 .filter(s -> 0 == nowBetween.compare(s.getStart().toLocalDateTime(), s.getFinish().toLocalDateTime()))
                 .map(ModelHelper::createSurveyResponse)
