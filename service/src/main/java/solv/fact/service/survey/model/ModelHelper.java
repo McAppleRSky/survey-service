@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelHelper {
-    public static SurveyResponse createSurveyResponse(Survey entity) {
-        return new SurveyResponse(
+    public static SurveyFullResponse createSurveyResponse(Survey entity) {
+        return new SurveyFullResponse(
                 entity.getId(),
                 entity.getTitle(),
                 entity.getStart().toLocalDateTime(),

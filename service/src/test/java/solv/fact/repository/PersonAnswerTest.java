@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import solv.fact.repository.entity.*;
+import solv.fact.service.answer.model.AnswerTuple;
+import solv.fact.service.answer.model.AnswerHelper;
 import solv.fact.service.survey.model.QuestionTypeEnum;
 
 import java.sql.Timestamp;
@@ -40,12 +42,13 @@ class PersonAnswerTest {
 
     @Autowired
     AnswerRepositoryQuery answerRepositoryQuery;
+
     @Test
     void findAllByPersonTest() {
-        final String name = randomAlphabetic(3) + " "  + randomAlphabetic(3);
-        final String login = randomAlphabetic(3);
-        final String password = randomAlphabetic(8);
-        final String email = randomAlphabetic(3)
+        final String name = "name" + randomAlphabetic(3) + " "  + randomAlphabetic(3);
+        final String login = "login" + randomAlphabetic(3);
+        final String password = "password" + randomAlphabetic(8);
+        final String email = "email" + randomAlphabetic(3)
                 + "@"  + randomAlphabetic(3)
                 + "." +  randomAlphabetic(2);
 
@@ -53,10 +56,10 @@ class PersonAnswerTest {
         assertNotNull( personRepository.save(new Person(null, name, login, password, email, null)) );
         assertEquals(2, personRepository.findAll().size());
 
-        final String titleSurvey = randomAlphabetic(3);
+        final String titleSurvey = "title survey" + randomAlphabetic(3);
         final Timestamp start = Timestamp.valueOf(now());
         final Timestamp finish = Timestamp.valueOf(now());
-        final String description = randomAlphabetic(3);
+        final String description = "description survey" + randomAlphabetic(3);
         Survey surveySaved = surveyRepository
                 .save(
                         new Survey(
@@ -67,7 +70,7 @@ class PersonAnswerTest {
                                 description,
                                 new ArrayList<>()));
 
-        final String titleQuestion = randomAlphabetic(3);
+        final String titleQuestion = "title question" + randomAlphabetic(3);
 
         Question question = new Question(
                 null,
@@ -92,13 +95,28 @@ class PersonAnswerTest {
                                 personId));
         assertEquals(2, personRepository.findAll().size());
 
-        final String value = randomAlphabetic(3);
-        Answer answer = new Answer(null, value, null, participationSaved.getId());
+        final String value = "value" + randomAlphabetic(3);
+        Answer answer = new Answer(
+                null,
+                value,
+                null,
+                participationSaved.getId());
         answerRepository.save(answer);
 
         List<Object[]> allByPersonId = null;
         allByPersonId = answerRepositoryQuery.findAllByPersonId(1);
-
+        assertNotNull(allByPersonId);
+        List<AnswerTuple> answerTuples = AnswerHelper.createAnswerTuples(allByPersonId);
+        assertNotNull(answerTuples);
+        assertEquals(1, answerTuples.size());
+        AnswerTuple answerTuple = answerTuples.get(0);
+        assertEquals(1, answerTuple.getSurveyId());
+        assertEquals(titleSurvey, answerTuple.getSurveyTitle());
+        assertEquals(1, answerTuple.getQuestionId());
+        assertEquals(titleQuestion, answerTuple.getQuestionTitle());
+        assertEquals(QuestionTypeEnum.RADIO.getText(), answerTuple.getQuestionType());
+        assertNull(answerTuple.getAnswerText());
+        assertEquals(value, answerTuple.getAnswerValue());
         LOGGER.info("assert end");
     }
 

@@ -34,7 +34,7 @@ public class SurveyServiceImpl implements SurveyService {
     @Nonnull
     @Override
     @Transactional
-    public SurveyResponse updateSurvey(int id, @Nonnull SurveyRequestPull requested) {
+    public SurveyFullResponse updateSurvey(int id, @Nonnull SurveyRequestPull requested) {
 //        final SurveyRequestPull requestedFinal = requested;
         /*Survey updating = surveyRepository.findById(id);
         if (updating==null){
@@ -52,7 +52,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Transactional(readOnly = true)
     @Nonnull
-    SurveyResponse getById(int id) {
+    SurveyFullResponse getById(int id) {
         return ofNullable(surveyRepository.findById(id))
                 .map(ModelHelper::createSurveyResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Survey '" + id + "' not found"));
@@ -65,7 +65,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<SurveyResponse> findAllActiveSurvey() {
+    public List<SurveyFullResponse> findAllActiveSurvey() {
         LocalDateTime now = LocalDateTime.now();
         Comparator<LocalDateTime> nowBetween = (o1, o2) -> o1.isAfter(now) ? -1 : o2.isBefore(now) ? 1 : 0;
         return surveyRepository.findAll().stream()

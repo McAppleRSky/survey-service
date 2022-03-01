@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.Survey;
 import solv.fact.service.answer.AnswerService;
-import solv.fact.service.answer.model.AnswerFullResponse;
+import solv.fact.service.answer.model.AnswerTuple;
 import solv.fact.service.answer.model.AnswerRequest;
 import solv.fact.service.survey.SurveyService;
 import solv.fact.service.survey.model.*;
@@ -44,7 +44,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Survey> surveyUpdate(@PathVariable Integer id, @Valid @RequestBody SurveyRequestPull requested) {
-        SurveyResponse updated = surveyService.updateSurvey(id, requested);
+        SurveyFullResponse updated = surveyService.updateSurvey(id, requested);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-store, no-cache, must-revalidate");
         headers.add("Pragma", "no-cache");
@@ -99,7 +99,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
 
     @GetMapping(MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<SurveyResponse> surveys() {
+    public List<SurveyFullResponse> surveys() {
         return surveyService.findAllActiveSurvey();
     }
 
@@ -124,7 +124,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
     }
 
     @GetMapping(value = "/answer/user/{personId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AnswerFullResponse answer(@PathVariable Integer personId) {
+    public List<AnswerTuple> answer(@PathVariable Integer personId) {
         return answerService.findAllByPersonId(personId);
     }
 

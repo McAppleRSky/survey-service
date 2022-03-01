@@ -27,7 +27,7 @@ public interface AnswerRepositoryQuery extends CrudRepository<Answer, Integer> {
             @Param("participationId") Integer participation_id );
 
     @Query(value =
-            "SELECT s.title_survey, q.title_question, q.type_question, a.value_answer, a.text_answer \n" +
+            "SELECT s.survey_id, s.title_survey, q.question_id, q.title_question, q.type_question, a.text_answer, a.value_answer \n" +
             "  FROM participation p JOIN survey s ON p.survey_id = s.survey_id \n" +
             "  JOIN question q ON p.question_id = q.question_id \n" +
             "  JOIN answer a ON p.participation_id = a.participation_id \n" +

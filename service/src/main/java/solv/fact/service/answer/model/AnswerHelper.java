@@ -1,5 +1,7 @@
 package solv.fact.service.answer.model;
 
+import solv.fact.service.survey.model.SurveysResponse;
+
 import javax.annotation.Nonnull;
 import java.util.*;
 
@@ -18,18 +20,49 @@ public class AnswerHelper {
     }
 
     @Nonnull
-    public static List<AnswerFullResponse> createAnswerFullResponse(@Nonnull List<Object[]> tuples) {
-        List<AnswerFullResponse> result = new ArrayList<>();
+    public static List<AnswerTuple> createAnswerTuples(@Nonnull List<Object[]> tuples) {
+        final int
+                _0_SURVEY_ID        = 0,
+                _1_SURVEY_TITLE     = 1,
+                _2_QUESTION_ID      = 2,
+                _3_QUESTION_TITLE   = 3,
+                _4_QUESTION_TYPE    = 4,
+                _5_ANSWER_TEXT      = 5,
+                _6_ANSWER_VALUE     = 6;
+        List<AnswerTuple> result = new ArrayList<>();
         for (Object[] tuple : tuples) {
             result.add(
-                    new AnswerFullResponse(
-                            tuple[0].toString(), // s.title_survey
-                            tuple[1].toString(),  // q.title_question
-                            tuple[2].toString(),   // q.type_question
-                            tuple[3].toString(),    // a.value_answer
-                            tuple[4].toString() ) ); // a.text_answer
+                    new AnswerTuple(
+                            (Integer)tuple[_0_SURVEY_ID],
+                            (String )tuple[_1_SURVEY_TITLE],
+                            (Integer)tuple[_2_QUESTION_ID],
+                            (String )tuple[_3_QUESTION_TITLE],
+                            (String )tuple[_4_QUESTION_TYPE],
+                            tuple[_5_ANSWER_TEXT] == null ?
+                                    null : (String)tuple[_5_ANSWER_TEXT],
+                            tuple[_6_ANSWER_VALUE  ] == null ?
+                                    null : (String)tuple[_6_ANSWER_VALUE]) );
         }
         return result;
+    }
+
+    public static List<SurveysResponse> createSurveyQuestionAnswersResponse(List<AnswerTuple> answerTuples) {
+        List<SurveysResponse> result = null;
+        Integer currentSurveyId = null, currentSurveyI = null,
+                currentQuestionId = null, currentQuestionI = null;
+        for (AnswerTuple answerTuple : answerTuples) {
+            if (answerTuple.getSurveyId() != currentSurveyId){
+                if (result == null) {
+                    result = new ArrayList<>();
+                    currentSurveyI = 0;
+                }
+            }
+
+            if (result.get(currentSurveyI).) {
+
+            }
+        }
+        return null;
     }
 
 }

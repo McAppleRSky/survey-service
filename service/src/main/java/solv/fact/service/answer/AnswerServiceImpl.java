@@ -1,11 +1,10 @@
 package solv.fact.service.answer;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import solv.fact.repository.AnswerRepository;
 import solv.fact.repository.AnswerRepositoryQuery;
-import solv.fact.service.answer.model.AnswerFullResponse;
+import solv.fact.service.answer.model.AnswerTuple;
 import solv.fact.service.answer.model.AnswerHelper;
 import solv.fact.service.answer.model.AnswerRequest;
 import solv.fact.service.answer.model.AnswerValuesOrTextEnum;
@@ -13,7 +12,7 @@ import solv.fact.service.answer.model.AnswerValuesOrTextEnum;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static solv.fact.service.answer.model.AnswerHelper.createAnswerFullResponse;
+import static solv.fact.service.answer.model.AnswerHelper.createAnswerTuples;
 
 @RequiredArgsConstructor
 @Service
@@ -48,8 +47,8 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Transactional
     @Override
-    public List<AnswerFullResponse> findAllByPersonId(Integer personId) {
-        return createAnswerFullResponse(answerRepositoryQuery.findAllByPersonId(personId));
+    public List<AnswerTuple> findAllByPersonId(Integer personId) {
+        return createAnswerTuples(answerRepositoryQuery.findAllByPersonId(personId));
     }
 
 }

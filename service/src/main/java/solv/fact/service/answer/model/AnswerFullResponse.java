@@ -1,16 +1,10 @@
 package solv.fact.service.answer.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Getter
-@RequiredArgsConstructor
+@Getter @Setter
+@AllArgsConstructor
 public class AnswerFullResponse {
-
-    private final String titleSurvey;
-    private final String titleQuestion;
-    private final String typeQuestion;
-    private final String valueAnswer;
-    private final String textAnswer;
-
 }

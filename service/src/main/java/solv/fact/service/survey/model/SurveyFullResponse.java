@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
-public class SurveyResponse {
+public class SurveyFullResponse {
     private final Integer id;
     private final String title;
     private final LocalDateTime start;

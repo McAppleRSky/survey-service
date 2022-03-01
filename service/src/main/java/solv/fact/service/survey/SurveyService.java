@@ -5,7 +5,7 @@ import solv.fact.service.survey.model.*;
 import java.util.List;
 
 public interface SurveyService {
-    SurveyResponse updateSurvey(int id, SurveyRequestPull requested);
+    SurveyFullResponse updateSurvey(int id, SurveyRequestPull requested);
     int createSurvey(SurveyRequest requested);
     void deleteSurvey(int id);
     List findAllActiveSurvey();
