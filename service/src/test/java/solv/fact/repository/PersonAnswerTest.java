@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import solv.fact.repository.entity.*;
-import solv.fact.service.answer.model.AnswerTuple;
 import solv.fact.service.answer.model.AnswerHelper;
-import solv.fact.service.survey.model.QuestionTypeEnum;
+import solv.fact.service.answer.model.AnswerTuple;
+import solv.fact.service.question.model.QuestionTypeEnum;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

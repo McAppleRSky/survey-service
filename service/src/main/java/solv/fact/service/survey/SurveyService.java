@@ -1,5 +1,7 @@
 package solv.fact.service.survey;
 
+import solv.fact.service.question.model.QuestionRequest;
+import solv.fact.service.question.model.QuestionResponse;
 import solv.fact.service.survey.model.*;
 
 import java.util.List;

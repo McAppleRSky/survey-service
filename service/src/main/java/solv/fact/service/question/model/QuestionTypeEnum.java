@@ -1,4 +1,4 @@
-package solv.fact.service.survey.model;
+package solv.fact.service.question.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

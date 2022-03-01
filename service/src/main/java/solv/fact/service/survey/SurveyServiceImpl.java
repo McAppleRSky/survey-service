@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import solv.fact.repository.SurveyRepository;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.Survey;
+import solv.fact.service.question.model.QuestionRequest;
+import solv.fact.service.question.model.QuestionResponse;
 import solv.fact.service.survey.model.*;
 
 import javax.annotation.Nonnull;

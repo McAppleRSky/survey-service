@@ -1,6 +1,7 @@
 package solv.fact.service.answer.model;
 
-import solv.fact.service.survey.model.SurveysResponse;
+import solv.fact.service.question.model.QuestionResponse;
+import solv.fact.service.survey.model.SurveyResponse;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -46,19 +47,69 @@ public class AnswerHelper {
         return result;
     }
 
-    public static List<SurveysResponse> createSurveyQuestionAnswersResponse(List<AnswerTuple> answerTuples) {
-        List<SurveysResponse> result = null;
+    public static List<SurveyResponse> createSurveyQuestionAnswersResponse(List<AnswerTuple> answerTuples) {
+        List<SurveyResponse> surveysResponse = null;
+//        List<QuestionResponse> questionsResponse = null;
         Integer currentSurveyId = null, currentSurveyI = null,
-                currentQuestionId = null, currentQuestionI = null;
+                currentQuestionId = null, currentQuestionI = null,
+                currentAnswerI = null;
         for (AnswerTuple answerTuple : answerTuples) {
-            if (answerTuple.getSurveyId() != currentSurveyId){
-                if (result == null) {
-                    result = new ArrayList<>();
-                    currentSurveyI = 0;
+            if (answerTuple.getSurveyId() != currentSurveyId) {
+                if (surveysResponse == null) {
+                    surveysResponse = new ArrayList<>();
+                    currentSurveyI = -1;
                 }
+                surveysResponse
+                        .add(
+                                new SurveyResponse(
+                                        answerTuple.getSurveyTitle(),
+                                        new ArrayList<>()));
+                currentQuestionI = -1;
+                currentSurveyI += 1;
+                currentSurveyId = answerTuple.getSurveyId();
             }
 
-            if (result.get(currentSurveyI).) {
+            if (answerTuple.getQuestionId() != currentQuestionId) {
+                /*if (surveysResponse.get(currentSurveyI).getQuestionsResponse() == null) {
+                    surveysResponse. = new ArrayList<>();
+                    currentQuestionI = -1;
+                }*/
+                surveysResponse
+                        .get(currentSurveyI)
+                        .getQuestionsResponse()
+                        .add(
+                                new QuestionResponse(
+                                        answerTuple.getQuestionTitle(),
+                                        answerTuple.getQuestionType(),
+                                        new ArrayList<>()));
+                currentQuestionI += 1;
+                currentQuestionId = answerTuple.getQuestionId();
+            }
+            if (answerTuple.getAnswerText() != null) {
+                surveysResponse
+                        .get(currentSurveyI)
+                        .getQuestionsResponse()
+                        .get(currentQuestionI)
+                        .getAnswersResponse()
+                        .add(
+                                new AnswerResponse(
+                                        null,
+                                        new ArrayList<>() ) );
+            }
+            surveysResponse
+                    .get(currentSurveyI)
+                    .getQuestionsResponse()
+                    .get(currentQuestionI)
+                    .getAnswersResponse()
+                    .add(
+                            new AnswerResponse(
+                                    null,
+                                    new ArrayList<>() ) );
+
+
+            if ()
+
+            if (answerTuple.getAnswerText() != null) {
 
             }
         }

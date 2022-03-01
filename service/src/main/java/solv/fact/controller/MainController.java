@@ -12,6 +12,8 @@ import solv.fact.repository.entity.Survey;
 import solv.fact.service.answer.AnswerService;
 import solv.fact.service.answer.model.AnswerTuple;
 import solv.fact.service.answer.model.AnswerRequest;
+import solv.fact.service.question.model.QuestionRequest;
+import solv.fact.service.question.model.QuestionResponse;
 import solv.fact.service.survey.SurveyService;
 import solv.fact.service.survey.model.*;
 

@@ -3,6 +3,9 @@ package solv.fact.service.survey.model;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.QuestionVariant;
 import solv.fact.repository.entity.Survey;
+import solv.fact.service.question.model.QuestionRequest;
+import solv.fact.service.question.model.QuestionResponse;
+import solv.fact.service.question.model.QuestionTypeEnum;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
