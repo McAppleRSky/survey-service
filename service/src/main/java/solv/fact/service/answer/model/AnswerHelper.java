@@ -4,7 +4,9 @@ import solv.fact.service.question.model.QuestionResponse;
 import solv.fact.service.survey.model.SurveyResponse;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -48,18 +50,17 @@ public class AnswerHelper {
     }
 
     public static List<SurveyResponse> createSurveyQuestionAnswersResponse(List<AnswerTuple> answerTuples) {
-        List<SurveyResponse> surveysResponse = null;
-//        List<QuestionResponse> questionsResponse = null;
+        List<SurveyResponse> surveysResponseResult = null;
         Integer currentSurveyId = null, currentSurveyI = null,
                 currentQuestionId = null, currentQuestionI = null,
                 currentAnswerI = null;
         for (AnswerTuple answerTuple : answerTuples) {
             if (answerTuple.getSurveyId() != currentSurveyId) {
-                if (surveysResponse == null) {
-                    surveysResponse = new ArrayList<>();
+                if (surveysResponseResult == null) {
+                    surveysResponseResult = new ArrayList<>();
                     currentSurveyI = -1;
                 }
-                surveysResponse
+                surveysResponseResult
                         .add(
                                 new SurveyResponse(
                                         answerTuple.getSurveyTitle(),
@@ -70,50 +71,43 @@ public class AnswerHelper {
             }
 
             if (answerTuple.getQuestionId() != currentQuestionId) {
-                /*if (surveysResponse.get(currentSurveyI).getQuestionsResponse() == null) {
-                    surveysResponse. = new ArrayList<>();
-                    currentQuestionI = -1;
-                }*/
-                surveysResponse
+                surveysResponseResult
                         .get(currentSurveyI)
                         .getQuestionsResponse()
                         .add(
                                 new QuestionResponse(
                                         answerTuple.getQuestionTitle(),
                                         answerTuple.getQuestionType(),
-                                        new ArrayList<>()));
+                                        new AnswerResponse(
+                                                null,
+                                                new ArrayList<>() ) ) );
                 currentQuestionI += 1;
                 currentQuestionId = answerTuple.getQuestionId();
             }
-            if (answerTuple.getAnswerText() != null) {
-                surveysResponse
-                        .get(currentSurveyI)
-                        .getQuestionsResponse()
-                        .get(currentQuestionI)
-                        .getAnswersResponse()
-                        .add(
-                                new AnswerResponse(
-                                        null,
-                                        new ArrayList<>() ) );
-            }
-            surveysResponse
-                    .get(currentSurveyI)
-                    .getQuestionsResponse()
-                    .get(currentQuestionI)
-                    .getAnswersResponse()
-                    .add(
-                            new AnswerResponse(
-                                    null,
-                                    new ArrayList<>() ) );
-
-
-            if ()
-
-            if (answerTuple.getAnswerText() != null) {
-
+            if (answerTuple.getAnswerText() == null ^ answerTuple.getAnswerValue() == null) {
+                if (answerTuple.getAnswerText() != null) {
+                    surveysResponseResult
+                            .get(currentSurveyI)
+                            .getQuestionsResponse()
+                            .get(currentQuestionI)
+                            .getAnswerResponse()
+                            .setText(
+                                    answerTuple
+                                            .getAnswerText() );
+                } else {
+                    surveysResponseResult
+                            .get(currentSurveyI)
+                            .getQuestionsResponse()
+                            .get(currentQuestionI)
+                            .getAnswerResponse()
+                            .getValues()
+                            .add(
+                                    answerTuple
+                                            .getAnswerValue() );
+                }
             }
         }
-        return null;
+        return surveysResponseResult;
     }
 
 }

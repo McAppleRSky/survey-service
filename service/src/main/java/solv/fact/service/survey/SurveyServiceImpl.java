@@ -6,9 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import solv.fact.repository.SurveyRepository;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.Survey;
+import solv.fact.service.question.model.QuestionFullResponse;
 import solv.fact.service.question.model.QuestionRequest;
-import solv.fact.service.question.model.QuestionResponse;
-import solv.fact.service.survey.model.*;
+import solv.fact.service.survey.model.ModelHelper;
+import solv.fact.service.survey.model.SurveyFullResponse;
+import solv.fact.service.survey.model.SurveyRequest;
+import solv.fact.service.survey.model.SurveyRequestPull;
 
 import javax.annotation.Nonnull;
 import javax.persistence.EntityNotFoundException;
@@ -75,7 +78,6 @@ public class SurveyServiceImpl implements SurveyService {
                 .map(ModelHelper::createSurveyResponse)
                 .collect(toList())
                 ;
-//        return null;
     }
 
     @Transactional
@@ -93,7 +95,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Transactional
     @Override
-    public QuestionResponse updateQuestionAtSurvey(int surveyId, int questionId, QuestionRequest requestedModel) {
+    public QuestionFullResponse updateQuestionAtSurvey(int surveyId, int questionId, QuestionRequest requestedModel) {
         Survey atSurvey = ofNullable(surveyRepository.findById(surveyId))
                 .orElseThrow(() -> new EntityNotFoundException("Survey '" + surveyId + "' not found"));
         Question questionEntity = atSurvey.getQuestions().stream()

@@ -1,7 +1,7 @@
 package solv.fact.service.survey;
 
+import solv.fact.service.question.model.QuestionFullResponse;
 import solv.fact.service.question.model.QuestionRequest;
-import solv.fact.service.question.model.QuestionResponse;
 import solv.fact.service.survey.model.*;
 
 import java.util.List;
@@ -13,6 +13,6 @@ public interface SurveyService {
     List findAllActiveSurvey();
 
     int createQuestionAtSurvey(int surveyId, QuestionRequest requested);
-    QuestionResponse updateQuestionAtSurvey(int surveyId, int questionId, QuestionRequest requested);
+    QuestionFullResponse updateQuestionAtSurvey(int surveyId, int questionId, QuestionRequest requested);
     void deleteQuestionAtSurvey(int surveyId, int questionId);
 }

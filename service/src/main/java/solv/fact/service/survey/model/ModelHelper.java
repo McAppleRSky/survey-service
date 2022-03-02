@@ -3,8 +3,8 @@ package solv.fact.service.survey.model;
 import solv.fact.repository.entity.Question;
 import solv.fact.repository.entity.QuestionVariant;
 import solv.fact.repository.entity.Survey;
+import solv.fact.service.question.model.QuestionFullResponse;
 import solv.fact.service.question.model.QuestionRequest;
-import solv.fact.service.question.model.QuestionResponse;
 import solv.fact.service.question.model.QuestionTypeEnum;
 
 import java.sql.Timestamp;
@@ -68,7 +68,7 @@ public class ModelHelper {
         return questionEntity;
     }
 
-    public static QuestionResponse questionResponse(Question questionEntity) {
+    public static QuestionFullResponse questionResponse(Question questionEntity) {
         List<String[]> questionVariantsForResponse = new ArrayList<>();
         for (QuestionVariant questionVariantEntity : questionEntity.getQuestionVariants()) {
             questionVariantsForResponse.add(new String[]{
@@ -76,7 +76,7 @@ public class ModelHelper {
                     questionVariantEntity.getValue()
             });
         }
-        QuestionResponse resultQuestionResponse = new QuestionResponse(
+        QuestionFullResponse resultQuestionResponse = new QuestionFullResponse(
                 questionEntity.getTitle(),
                 QuestionTypeEnum.valueOf(
                         questionEntity.getQuestionType() ),

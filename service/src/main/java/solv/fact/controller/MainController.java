@@ -13,7 +13,7 @@ import solv.fact.service.answer.AnswerService;
 import solv.fact.service.answer.model.AnswerTuple;
 import solv.fact.service.answer.model.AnswerRequest;
 import solv.fact.service.question.model.QuestionRequest;
-import solv.fact.service.question.model.QuestionResponse;
+import solv.fact.service.question.model.QuestionFullResponse;
 import solv.fact.service.survey.SurveyService;
 import solv.fact.service.survey.model.*;
 
@@ -82,7 +82,7 @@ public class MainController implements SurveyServletable, QuestionServletable, P
             @PathVariable Integer surveyId,
             @PathVariable Integer questionId,
             @Valid @RequestBody QuestionRequest requested ) {
-        QuestionResponse updated = surveyService.updateQuestionAtSurvey(surveyId, questionId, requested);
+        QuestionFullResponse updated = surveyService.updateQuestionAtSurvey(surveyId, questionId, requested);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-store, no-cache, must-revalidate");
         headers.add("Pragma", "no-cache");

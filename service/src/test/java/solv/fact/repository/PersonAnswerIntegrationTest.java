@@ -1,5 +1,7 @@
 package solv.fact.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import solv.fact.repository.entity.*;
 import solv.fact.service.answer.model.AnswerHelper;
 import solv.fact.service.answer.model.AnswerTuple;
 import solv.fact.service.question.model.QuestionTypeEnum;
+import solv.fact.service.survey.model.SurveyResponse;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ComponentScan(basePackages = "solv.fact")
-class PersonAnswerTest {
+class PersonAnswerIntegrationTest {
 
     private static Logger LOGGER = LoggerFactory.getLogger(AnswerRepositoryTextTest.class);
 
@@ -32,7 +35,7 @@ class PersonAnswerTest {
     private ParticipationRepository participationRepository;
 
     @Autowired
-    QuestionRepository questionRepository;
+    private QuestionRepository questionRepository;
 
     @Autowired
     private PersonRepository personRepository;
@@ -41,7 +44,7 @@ class PersonAnswerTest {
     private AnswerRepositoryQuery answerRepository;
 
     @Autowired
-    AnswerRepositoryQuery answerRepositoryQuery;
+    private AnswerRepositoryQuery answerRepositoryQuery;
 
     @Test
     void findAllByPersonTest() {
@@ -117,6 +120,19 @@ class PersonAnswerTest {
         assertEquals(QuestionTypeEnum.RADIO.getText(), answerTuple.getQuestionType());
         assertNull(answerTuple.getAnswerText());
         assertEquals(value, answerTuple.getAnswerValue());
+
+        List<SurveyResponse> surveyQuestionAnswersResponse = AnswerHelper.createSurveyQuestionAnswersResponse(answerTuples);
+        ObjectMapper mapper = new ObjectMapper();
+        String answerString = null;
+        try {
+            answerString = mapper.writeValueAsString(surveyQuestionAnswersResponse);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        String expected = String.format("[{\"titleSurveys\":\"%s\",\"questionsResponse\":[{\"title\":\"%s\",\"type\":\"radio\",\"answerResponse\":{\"text\":null,\"values\":[\"%s\"]}}]}]",
+        titleSurvey, titleQuestion, value);
+        assertNotNull(answerString);
+        assertEquals(expected, answerString);
         LOGGER.info("assert end");
     }
 

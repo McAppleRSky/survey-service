@@ -1,20 +1,23 @@
 package solv.fact.service.answer.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Getter
-@RequiredArgsConstructor
+@Getter @Setter
+//@RequiredArgsConstructor
+@AllArgsConstructor
 public class AnswerResponse {
 
     @Nullable
-    private final String text;
+    private String text;
 
     @Nonnull
-    private final List<String> values;
+    private List<String> values;
 
 }
