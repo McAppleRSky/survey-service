@@ -1,4 +1,4 @@
-under develop !
+prototype complete !
 
 Для запуска приложения необходим проперти файл (исключен из git репозитория)
   application-hide.properties
